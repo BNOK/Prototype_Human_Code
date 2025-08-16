@@ -13,9 +13,10 @@ public class Card : MonoBehaviour
     private Sprite _iconImage;
     [SerializeField]
     private Animator _animator;
+    private Button _button;
 
     [SerializeField]
-    private int ID;
+    private int ID = -1;
 
     [SerializeField]
     private bool isSelected = false;
@@ -24,11 +25,9 @@ public class Card : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        //disabling card (changing icon opacity to 0.5)
-        //_animator.SetTrigger("Disabled");
-        //selecting the card(rotating the card and showing the icon)
-        //_animator.SetTrigger("Selected");
-        //StartCoroutine(TestCoroutine());
+        _button = GetComponent<Button>();
+
+        GetCardSize();
     }
 
     public void onCardClick()
@@ -45,16 +44,6 @@ public class Card : MonoBehaviour
         isSelected = !isSelected;
     }
 
-
-    IEnumerator TestCoroutine()
-    {
-        yield return new WaitForSeconds(3.0f);
-        ShowCard();
-        yield return new WaitForSeconds(1.0f);
-        HideCard();
-        yield break;
-    }
-
     public void ShowCard()
     {
         _animator.SetTrigger("Selected");
@@ -67,6 +56,17 @@ public class Card : MonoBehaviour
 
     public void DisableCard()
     {
+        _animator.SetTrigger("Disabled");
+        _button.interactable = false;
+    }
 
+    public float[] GetCardSize()
+    {
+        float[] result = new float[2];
+        RectTransform rect = GetComponent<RectTransform>();
+        result[0] = rect.sizeDelta.x;
+        result[1] = rect.sizeDelta.y;
+        Debug.Log(result);
+        return result;
     }
 }
