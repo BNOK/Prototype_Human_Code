@@ -42,14 +42,14 @@ public class Card : MonoBehaviour
     public void ShowCard()
     {
         isSelected = true;
-        _animator.SetBool("isSelected", isSelected);
+        
         _animator.SetTrigger("Selected");
     }
 
     public void HideCard()
     {
         isSelected = false;
-        _animator.SetBool("isSelected", isSelected);
+        
         _animator.SetTrigger("Pressed");
     }
 
