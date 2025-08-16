@@ -172,7 +172,8 @@ MonoBehaviour:
   _backFace: {fileID: 0}
   _frontFace: {fileID: 0}
   _iconImage: {fileID: 0}
-  _animator: {fileID: 0}
+  _iconImageComponent: {fileID: 8315069710585576854}
+  _animator: {fileID: 5125843792321180151}
   ID: 0
   isSelected: 0
 --- !u!1 &8315069710585576848

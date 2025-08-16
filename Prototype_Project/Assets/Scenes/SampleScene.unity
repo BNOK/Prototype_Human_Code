@@ -369,9 +369,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11fd2f1b12206d3419cfbdfe0eb0cf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridWidth: 0
-  _gridHeight: 0
+  _gridWidth: 2
+  _gridHeight: 2
   _cardPrefab: {fileID: 1318354555, guid: d7ccb2e60c38d6844970238cb8618fde, type: 3}
+  _icons:
+  - {fileID: 1055577325, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
+  - {fileID: 1979398198, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
+  - {fileID: 600324727, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
+  - {fileID: -1049940978, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
+  - {fileID: -944697150, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
+  - {fileID: 1162506502, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
 --- !u!1 &1346436233
 GameObject:
   m_ObjectHideFlags: 0

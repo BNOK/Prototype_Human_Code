@@ -10,7 +10,8 @@ public class Card : MonoBehaviour
     [SerializeField]
     private Sprite _frontFace;
     [SerializeField]
-    private Sprite _iconImage;
+    private Image _iconImageComponent;
+
     [SerializeField]
     private Animator _animator;
     private Button _button;
@@ -68,5 +69,11 @@ public class Card : MonoBehaviour
         result[1] = rect.sizeDelta.y;
         Debug.Log(result);
         return result;
+    }
+
+    public void SetCardIcon(Sprite iconImage)
+    {
+        
+        _iconImageComponent.sprite = iconImage;
     }
 }
