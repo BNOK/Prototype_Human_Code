@@ -31,25 +31,37 @@ public class Card : MonoBehaviour
         //StartCoroutine(TestCoroutine());
     }
 
+    public void onCardClick()
+    {
+        
+        if (!isSelected)
+        {
+            ShowCard();
+        }
+        else
+        {
+            HideCard();
+        }
+        isSelected = !isSelected;
+    }
+
+
     IEnumerator TestCoroutine()
     {
-        ShowCard();
         yield return new WaitForSeconds(3.0f);
+        ShowCard();
+        yield return new WaitForSeconds(1.0f);
         HideCard();
         yield break;
     }
 
     public void ShowCard()
     {
-        isSelected = true;
-        
         _animator.SetTrigger("Selected");
     }
 
     public void HideCard()
     {
-        isSelected = false;
-        
         _animator.SetTrigger("Pressed");
     }
 
