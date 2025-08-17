@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8315069710361010806}
   - component: {fileID: 8315069710361010811}
   - component: {fileID: 8315069710361010805}
+  - component: {fileID: 1318354555}
   - component: {fileID: 432647970035601413}
   - component: {fileID: 5125843792321180151}
-  - component: {fileID: 1318354555}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -106,18 +106,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 8687051610192613980, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
-        m_TargetAssemblyTypeName: GridController, Assembly-CSharp
-        m_MethodName: ClickHandle
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1318354555}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+--- !u!114 &1318354555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315069710361010807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625ff38c287deaf4d9ee2137c2e744e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backFace: {fileID: 0}
+  _frontFace: {fileID: 0}
+  _iconImageComponent: {fileID: 8315069710585576854}
+  _animator: {fileID: 5125843792321180151}
+  _id: -1
+  isSelected: 0
 --- !u!114 &432647970035601413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,24 +175,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1318354555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8315069710361010807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 625ff38c287deaf4d9ee2137c2e744e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _backFace: {fileID: 0}
-  _frontFace: {fileID: 0}
-  _iconImageComponent: {fileID: 8315069710585576854}
-  _animator: {fileID: 5125843792321180151}
-  _id: -1
-  isSelected: 0
 --- !u!1 &8315069710585576848
 GameObject:
   m_ObjectHideFlags: 0

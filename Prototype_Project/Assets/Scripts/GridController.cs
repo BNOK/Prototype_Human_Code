@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,12 +23,19 @@ public class GridController : MonoBehaviour
     private GridLayoutGroup _gridComponent;
 
     // gameplayProperties
-    private List<Card> _selectedCards = new List<Card> ();
-    
+    private List<Card> _selectedCards;
+
+
+    private void OnEnable()
+    {
+        
+    }
     void Start()
     {
+        Debug.Log("Start OFF");
         // getting component and setting cellSize depending on the card size
         _gridComponent = GetComponent<GridLayoutGroup>();
+        
         // setting up the grid (mobile)
         SetGridLayout(2);
         CheckGridSize();
@@ -34,6 +43,7 @@ public class GridController : MonoBehaviour
         // setting up the cards
         List<Tuple<int, Sprite>> temp = CreateIconList();
         SpawnCardGrid(temp, _gridWidth, _gridHeight);
+        _selectedCards = new List<Card>();
     }
 
     #region GridSetup
@@ -72,11 +82,14 @@ public class GridController : MonoBehaviour
         for (int i = 0; i < width * height; i++)
         {
             Card tempcard = Instantiate(_cardPrefab, this.transform);
-            tempcard.SetupCard(i, iconList[i].Item2);
+            
+            tempcard.SetupCard(iconList[i].Item1, iconList[i].Item2, () => { ClickHandle(tempcard); });
 
             _cards.Add(tempcard);
         }
     }
+
+    
 
     //change grid size to have an even number of cards
     private void CheckGridSize()
@@ -105,6 +118,7 @@ public class GridController : MonoBehaviour
         return resultList;
     }
 
+
     private void ListShuffle(List<Tuple<int, Sprite>> List)
     {
         int length = List.Count;
@@ -124,28 +138,52 @@ public class GridController : MonoBehaviour
 
     public void ClickHandle(Card clickedCard)
     {
-        _selectedCards.Add(clickedCard);
-        if(_selectedCards.Count == 2)
+        if (!_selectedCards.Contains(clickedCard))
         {
-            // compare cards
+            _selectedCards.Add(clickedCard);
+            Debug.Log("list size : " + _selectedCards.Count);
+            if (_selectedCards.Count == 2)
+            {
+                // compare cards
+                Debug.Log("Comparing process started !! ");
+                StartCoroutine(CompareCards());
+            }
         }
-        
-        
-        
-        Debug.Log(clickedCard.name);
+        else
+        {
+            _selectedCards.Remove(clickedCard);
+           
+        }
     }
 
     IEnumerator CompareCards()
     {
         yield return new WaitForSeconds(0.2f);
-        
+        Debug.Log($"ID1 : {_selectedCards[0].GetID()}, ID2: {_selectedCards[1].GetID()}");
+        bool result = _selectedCards[0].GetID() == _selectedCards[1].GetID();
+
+        yield return new WaitForSeconds(0.3f);
+        if(result)
+        {
+            Debug.Log("disabling !");
+            foreach(Card card in _selectedCards)
+            {
+                card.DisableCard();
+            }
+        }
+        else
+        {
+            Debug.Log("hiding !");
+            foreach (Card card in _selectedCards)
+            {
+                card.HideCard();
+            }
+        }
+        _selectedCards.Clear();
+        Debug.Log("comparing process finished ! : " + _selectedCards.Count);
+        yield break;
     }
 
-    private bool CompareCards(List<Card> selected)
-    {
-        return selected[0].GetID() == selected[1].GetID();
-    }
-
-    private void 
+    
 
 }

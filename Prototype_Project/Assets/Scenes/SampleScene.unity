@@ -482,6 +482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GridHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 8687051610192613977, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8687051610192613978, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -492,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8687051610192613978, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8687051610192613978, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -564,6 +568,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8687051610192613978, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8687051610192613980, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
+      propertyPath: _selectedCards.Array.size
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

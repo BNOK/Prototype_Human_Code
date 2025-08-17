@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour
@@ -22,12 +22,13 @@ public class Card : MonoBehaviour
     [SerializeField]
     private bool isSelected = false;
 
-
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
         _button = GetComponent<Button>();
-
+    }
+    private void Start()
+    {
         GetCardSize();
     }
 
@@ -41,17 +42,19 @@ public class Card : MonoBehaviour
         {
             HideCard();
         }
-        isSelected = !isSelected;
+        
     }
 
     public void ShowCard()
     {
         _animator.SetTrigger("Selected");
+        isSelected = !isSelected;
     }
 
     public void HideCard()
     {
         _animator.SetTrigger("Pressed");
+        isSelected = !isSelected;
     }
 
     public void DisableCard()
@@ -75,10 +78,11 @@ public class Card : MonoBehaviour
         return _id;
     }
 
-    public void SetupCard(int id, Sprite iconImage)
+    public void SetupCard(int id, Sprite iconImage, UnityAction callback)
     {
         _id = id;
         _iconImageComponent.sprite = iconImage;
+        _button.onClick.AddListener(callback);
     }
 
    
