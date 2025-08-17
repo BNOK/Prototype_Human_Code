@@ -33,7 +33,6 @@ public class Card : MonoBehaviour
 
     public void onCardClick()
     {
-        
         if (!isSelected)
         {
             ShowCard();
@@ -69,6 +68,11 @@ public class Card : MonoBehaviour
         result[1] = rect.sizeDelta.y;
         Debug.Log(result);
         return result;
+    }
+
+    public int GetID()
+    {
+        return _id;
     }
 
     public void SetupCard(int id, Sprite iconImage)

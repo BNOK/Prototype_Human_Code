@@ -20,13 +20,14 @@ public class GridController : MonoBehaviour
 
     private GridLayoutGroup _gridComponent;
 
-
+    // gameplayProperties
+    private List<Card> _selectedCards = new List<Card> ();
     
     void Start()
     {
         // getting component and setting cellSize depending on the card size
         _gridComponent = GetComponent<GridLayoutGroup>();
-        // setting up the grid
+        // setting up the grid (mobile)
         SetGridLayout(2);
         CheckGridSize();
         SetCellSize();
@@ -35,6 +36,7 @@ public class GridController : MonoBehaviour
         SpawnCardGrid(temp, _gridWidth, _gridHeight);
     }
 
+    #region GridSetup
     private void SetGridLayout(int platformID)
     {
         // 1 == DESKTOP , 2 == MOBILE
@@ -67,11 +69,11 @@ public class GridController : MonoBehaviour
         _gridWidth = width;
 
         _cards = new List<Card>();
-        for(int i=0; i< width * height; i++)
+        for (int i = 0; i < width * height; i++)
         {
             Card tempcard = Instantiate(_cardPrefab, this.transform);
             tempcard.SetupCard(i, iconList[i].Item2);
-            
+
             _cards.Add(tempcard);
         }
     }
@@ -80,7 +82,7 @@ public class GridController : MonoBehaviour
     private void CheckGridSize()
     {
         int size = _gridHeight * _gridWidth;
-        if(size %2 != 0)
+        if (size % 2 != 0)
         {
             if (_gridHeight % 2 != 0) _gridHeight--;
             else _gridWidth++;
@@ -89,7 +91,7 @@ public class GridController : MonoBehaviour
 
     private List<Tuple<int, Sprite>> CreateIconList()
     {
-        List<Tuple<int, Sprite>> resultList= new List<Tuple<int, Sprite>>();
+        List<Tuple<int, Sprite>> resultList = new List<Tuple<int, Sprite>>();
         int counter = 1;
         for (int i = 0; i < _gridHeight * _gridWidth; i++)
         {
@@ -112,5 +114,38 @@ public class GridController : MonoBehaviour
             (List[i], List[rand]) = (List[rand], List[i]);
         }
     }
+
+    #endregion
+
+    public List<Card> getCards()
+    {
+        return _cards;
+    }
+
+    public void ClickHandle(Card clickedCard)
+    {
+        _selectedCards.Add(clickedCard);
+        if(_selectedCards.Count == 2)
+        {
+            // compare cards
+        }
+        
+        
+        
+        Debug.Log(clickedCard.name);
+    }
+
+    IEnumerator CompareCards()
+    {
+        yield return new WaitForSeconds(0.2f);
+        
+    }
+
+    private bool CompareCards(List<Card> selected)
+    {
+        return selected[0].GetID() == selected[1].GetID();
+    }
+
+    private void 
 
 }

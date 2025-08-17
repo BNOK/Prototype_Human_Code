@@ -106,6 +106,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8687051610192613980, guid: 76bde500d24deef458cfe998fe7f3c4c, type: 3}
+        m_TargetAssemblyTypeName: GridController, Assembly-CSharp
+        m_MethodName: ClickHandle
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1318354555}
+          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &432647970035601413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,10 +183,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _backFace: {fileID: 0}
   _frontFace: {fileID: 0}
-  _iconImage: {fileID: 0}
   _iconImageComponent: {fileID: 8315069710585576854}
   _animator: {fileID: 5125843792321180151}
-  ID: 0
+  _id: -1
   isSelected: 0
 --- !u!1 &8315069710585576848
 GameObject:
