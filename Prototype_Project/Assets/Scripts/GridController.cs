@@ -23,7 +23,7 @@ public class GridController : MonoBehaviour
     private GridLayoutGroup _gridComponent;
 
     // gameplayProperties
-    private List<Card> _selectedCards;
+    private Stack<Card[]> _selectedCards;
 
 
     private void OnEnable()
@@ -43,7 +43,7 @@ public class GridController : MonoBehaviour
         // setting up the cards
         List<Tuple<int, Sprite>> temp = CreateIconList();
         SpawnCardGrid(temp, _gridWidth, _gridHeight);
-        _selectedCards = new List<Card>();
+        _selectedCards = new Stack<Card[]>();
     }
 
     #region GridSetup
@@ -138,34 +138,43 @@ public class GridController : MonoBehaviour
 
     public void ClickHandle(Card clickedCard)
     {
-        if (!_selectedCards.Contains(clickedCard))
+        //if (!_selectedCards.Contains(clickedCard))
+        //{
+        //    _selectedCards.Add(clickedCard);
+
+        //    if (_selectedCards.Count == 2)
+        //    {
+        //        // compare cards
+
+        //        StartCoroutine(CompareCards());
+        //    }
+        //}
+        //else
+        //{
+        //    _selectedCards.Remove(clickedCard);
+
+        //}
+        Card[] cardArray = new Card[2];
+        if (cardArray[0] != null)
         {
-            _selectedCards.Add(clickedCard);
-            Debug.Log("list size : " + _selectedCards.Count);
-            if (_selectedCards.Count == 2)
-            {
-                // compare cards
-                Debug.Log("Comparing process started !! ");
-                StartCoroutine(CompareCards());
-            }
+
         }
         else
         {
-            _selectedCards.Remove(clickedCard);
-           
+            cardArray[0] = clickedCard;
         }
+
     }
 
     IEnumerator CompareCards()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1.0f);
         Debug.Log($"ID1 : {_selectedCards[0].GetID()}, ID2: {_selectedCards[1].GetID()}");
         bool result = _selectedCards[0].GetID() == _selectedCards[1].GetID();
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1.0f);
         if(result)
         {
-            Debug.Log("disabling !");
             foreach(Card card in _selectedCards)
             {
                 card.DisableCard();
@@ -173,7 +182,6 @@ public class GridController : MonoBehaviour
         }
         else
         {
-            Debug.Log("hiding !");
             foreach (Card card in _selectedCards)
             {
                 card.HideCard();
