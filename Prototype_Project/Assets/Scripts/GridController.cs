@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class GridController : MonoBehaviour
 {
+    [SerializeField]
+    private ScoreController _scoreController;
     private List<Card> _cards;
     void Start()
     {
@@ -153,6 +155,8 @@ public class GridController : MonoBehaviour
         Debug.Log($"ID1 : {input[0].GetID()}, ID2: {input[1].GetID()}");
         bool result = input[0].GetID() == input[1].GetID();
 
+        ProcessScore(result);
+
         yield return new WaitForSeconds(1.0f);
         if (result)
         {
@@ -176,8 +180,20 @@ public class GridController : MonoBehaviour
     #endregion
 
     #region Scoring
-    private int _matches, _turns;
+    [SerializeField]
+    private int _points = 0, _turns = 0;
+    private bool previousTurn = false;
 
+    private void ProcessScore(bool turnResult)
+    {
+        if(turnResult)
+        {
+            _points++;
+        }
+        _turns++;
+        previousTurn = turnResult;
+        _scoreController.UpdateValues(_points, _turns);
+    }
 
     #endregion
 }
