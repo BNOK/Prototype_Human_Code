@@ -31,8 +31,8 @@ public class GridController : MonoBehaviour
         CheckGridSize();
         SetCellSize();
         // setting up the cards
-        List<Sprite> temp = CreateIconList();
-        SpawnCardGrid(_gridWidth,_gridHeight);
+        List<Tuple<int, Sprite>> temp = CreateIconList();
+        SpawnCardGrid(temp, _gridWidth, _gridHeight);
     }
 
     private void SetGridLayout(int platformID)
@@ -61,7 +61,7 @@ public class GridController : MonoBehaviour
     }
 
     // spawn cards and assign them to a 1D array since its more efficient
-    private void SpawnCardGrid(int width = 2, int height = 4)
+    private void SpawnCardGrid(List<Tuple<int, Sprite>> iconList, int width = 2, int height = 4)
     {
         _gridHeight = height;
         _gridWidth = width;
@@ -70,8 +70,8 @@ public class GridController : MonoBehaviour
         for(int i=0; i< width * height; i++)
         {
             Card tempcard = Instantiate(_cardPrefab, this.transform);
-            //tempcard.SetCardIcon();
-
+            tempcard.SetupCard(i, iconList[i].Item2);
+            
             _cards.Add(tempcard);
         }
     }
@@ -87,21 +87,30 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private List<Sprite> CreateIconList()
+    private List<Tuple<int, Sprite>> CreateIconList()
     {
-        List<Sprite> resultList = new List<Sprite>();
-        int size = _gridHeight * _gridWidth;
-        Sprite[] iconarray = new Sprite[size/2];
-
-
-        Array.Copy(_icons, iconarray, size / 2);
-
-        for(int i=0; i< size; i++)
+        List<Tuple<int, Sprite>> resultList= new List<Tuple<int, Sprite>>();
+        int counter = 1;
+        for (int i = 0; i < _gridHeight * _gridWidth; i++)
         {
-
+            if (i % 2 == 0) counter++;
+            Tuple<int, Sprite> temp = Tuple.Create(counter, _icons[counter]);
+            resultList.Add(temp);
         }
 
+        ListShuffle(resultList);
+
         return resultList;
+    }
+
+    private void ListShuffle(List<Tuple<int, Sprite>> List)
+    {
+        int length = List.Count;
+        for (int i = length - 1; i > 0; i--)
+        {
+            int rand = UnityEngine.Random.Range(0, i + 1);
+            (List[i], List[rand]) = (List[rand], List[i]);
+        }
     }
 
 }

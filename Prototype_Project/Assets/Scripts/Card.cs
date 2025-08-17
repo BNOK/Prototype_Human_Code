@@ -17,7 +17,7 @@ public class Card : MonoBehaviour
     private Button _button;
 
     [SerializeField]
-    private int ID = -1;
+    private int _id = -1;
 
     [SerializeField]
     private bool isSelected = false;
@@ -71,9 +71,11 @@ public class Card : MonoBehaviour
         return result;
     }
 
-    public void SetCardIcon(Sprite iconImage)
+    public void SetupCard(int id, Sprite iconImage)
     {
-        
+        _id = id;
         _iconImageComponent.sprite = iconImage;
     }
+
+   
 }
