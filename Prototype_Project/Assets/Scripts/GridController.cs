@@ -2,34 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GridController : MonoBehaviour
 {
-
-    [SerializeField, Range(2, 5)]
-    private int _gridWidth, _gridHeight;
-
-    [SerializeField]
-    private Card _cardPrefab;
-
-    [SerializeField]
-    private Sprite[] _icons;
-
     private List<Card> _cards;
-
-    private GridLayoutGroup _gridComponent;
-
-    // gameplayProperties
-    private Stack<Card[]> _selectedCards;
-
-
-    private void OnEnable()
-    {
-        
-    }
     void Start()
     {
         Debug.Log("Start OFF");
@@ -43,10 +23,28 @@ public class GridController : MonoBehaviour
         // setting up the cards
         List<Tuple<int, Sprite>> temp = CreateIconList();
         SpawnCardGrid(temp, _gridWidth, _gridHeight);
-        _selectedCards = new Stack<Card[]>();
+        
+    }
+
+    public List<Card> getCards()
+    {
+        return _cards;
     }
 
     #region GridSetup
+
+    // Grid Properties
+    [SerializeField, Range(2, 5)]
+    private int _gridWidth, _gridHeight;
+
+    [SerializeField]
+    private Card _cardPrefab;
+
+    [SerializeField]
+    private Sprite[] _icons;
+
+    private GridLayoutGroup _gridComponent;
+
     private void SetGridLayout(int platformID)
     {
         // 1 == DESKTOP , 2 == MOBILE
@@ -131,67 +129,55 @@ public class GridController : MonoBehaviour
 
     #endregion
 
-    public List<Card> getCards()
-    {
-        return _cards;
-    }
+    #region Matching Logic
 
+    // Click Handle Properties
+    int _selectionCounter = 0;
+    List<Card> _selectedCards = new List<Card>();
     public void ClickHandle(Card clickedCard)
     {
-        //if (!_selectedCards.Contains(clickedCard))
-        //{
-        //    _selectedCards.Add(clickedCard);
-
-        //    if (_selectedCards.Count == 2)
-        //    {
-        //        // compare cards
-
-        //        StartCoroutine(CompareCards());
-        //    }
-        //}
-        //else
-        //{
-        //    _selectedCards.Remove(clickedCard);
-
-        //}
-        Card[] cardArray = new Card[2];
-        if (cardArray[0] != null)
+        _selectedCards.Add(clickedCard);
+        _selectionCounter++;
+        if(_selectionCounter == 2)
         {
-
+            List<Card> cardHolder = new List<Card>(_selectedCards);
+            StartCoroutine(CompareCoroutine(cardHolder));
+            _selectedCards.Clear();
+            _selectionCounter = 0;
         }
-        else
-        {
-            cardArray[0] = clickedCard;
-        }
-
     }
 
-    IEnumerator CompareCards()
+    IEnumerator CompareCoroutine(List<Card> input)
     {
         yield return new WaitForSeconds(1.0f);
-        Debug.Log($"ID1 : {_selectedCards[0].GetID()}, ID2: {_selectedCards[1].GetID()}");
-        bool result = _selectedCards[0].GetID() == _selectedCards[1].GetID();
+        Debug.Log($"ID1 : {input[0].GetID()}, ID2: {input[1].GetID()}");
+        bool result = input[0].GetID() == input[1].GetID();
 
         yield return new WaitForSeconds(1.0f);
-        if(result)
+        if (result)
         {
-            foreach(Card card in _selectedCards)
+            foreach (Card card in input)
             {
                 card.DisableCard();
             }
+            // scoring(+1 point, +1 turn)
         }
         else
         {
-            foreach (Card card in _selectedCards)
+            foreach (Card card in input)
             {
                 card.HideCard();
             }
+            //scoring (no points, +1 turn)
         }
-        _selectedCards.Clear();
-        Debug.Log("comparing process finished ! : " + _selectedCards.Count);
+
         yield break;
     }
+    #endregion
 
-    
+    #region Scoring
+    private int _matches, _turns;
 
+
+    #endregion
 }
