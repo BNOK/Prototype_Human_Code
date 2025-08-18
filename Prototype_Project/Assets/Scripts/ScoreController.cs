@@ -19,12 +19,6 @@ public class ScoreController : MonoBehaviour
         _TurnsValue = turnsGameObject.GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UpdateValues(int points, int turns)
     {
         _pointsValue.text = points.ToString();
