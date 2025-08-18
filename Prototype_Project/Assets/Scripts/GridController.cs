@@ -12,19 +12,32 @@ public class GridController : MonoBehaviour
     [SerializeField]
     private ScoreController _scoreController;
     private List<Card> _cards;
-    void Start()
+    private SimpleGameManager _gameManager;
+
+    private void OnEnable()
     {
-        Debug.Log("Start OFF");
         // getting component and setting cellSize depending on the card size
         _gridComponent = GetComponent<GridLayoutGroup>();
-        
-        // setting up the grid (mobile)
-        SetGridLayout(2);
-        CheckGridSize();
-        SetCellSize();
+
+        CheckGridSize(); // ** CRUCIAL TO FIX THE SIZE IN CASE OF LOW ICON COUNT **
         // setting up the cards
+
         List<Tuple<int, Sprite>> temp = CreateIconList();
         SpawnCardGrid(temp, _gridWidth, _gridHeight);
+        _points = 0;
+        _turns = 0;
+        // on enable does not work efficiently when depending on outside classes
+        if(_scoreController != null)
+        {
+            _scoreController.UpdateValues(_points, _turns);
+        }
+    }
+    void Start()
+    {
+        _gameManager = GameObject.FindFirstObjectByType<SimpleGameManager>();
+        // setting up the grid (mobile)
+        SetGridLayout(2);
+        SetCellSize();
         
     }
 
@@ -73,7 +86,7 @@ public class GridController : MonoBehaviour
     }
 
     // spawn cards and assign them to a 1D array since its more efficient
-    private void SpawnCardGrid(List<Tuple<int, Sprite>> iconList, int width = 2, int height = 4)
+    public void SpawnCardGrid(List<Tuple<int, Sprite>> iconList, int width = 2, int height = 4)
     {
         _gridHeight = height;
         _gridWidth = width;
@@ -147,17 +160,18 @@ public class GridController : MonoBehaviour
             _selectedCards.Clear();
             _selectionCounter = 0;
         }
+        
     }
 
     IEnumerator CompareCoroutine(List<Card> input)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.2f);
         Debug.Log($"ID1 : {input[0].GetID()}, ID2: {input[1].GetID()}");
         bool result = input[0].GetID() == input[1].GetID();
 
         ProcessScore(result);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.1f);
         if (result)
         {
             foreach (Card card in input)
@@ -175,7 +189,7 @@ public class GridController : MonoBehaviour
             //scoring (no points, +1 turn)
         }
 
-        yield break;
+        yield return CheckGameState();
     }
     #endregion
 
@@ -194,6 +208,25 @@ public class GridController : MonoBehaviour
         previousTurn = turnResult;
         _scoreController.UpdateValues(_points, _turns);
     }
+    #endregion
 
+    #region GameHandling
+    private IEnumerator CheckGameState()
+    {
+        if(_points >= _cards.Count / 2)
+        {
+            yield return new WaitForSeconds(1.0f);
+            foreach (Card card in _cards)
+            {
+                Destroy(card.gameObject);
+            }
+            _cards.Clear();
+            
+            _gameManager.EndGame(_points, _turns);
+            
+        }
+
+        yield break;
+    }
     #endregion
 }
