@@ -202,6 +202,11 @@ public class GridController : MonoBehaviour
     {
         if(turnResult)
         {
+            // if previous turn is a match , +2 instead of +1 (COMBO ...)
+            if(previousTurn)
+            {
+                _points++;
+            }
             _points++;
         }
         _turns++;
